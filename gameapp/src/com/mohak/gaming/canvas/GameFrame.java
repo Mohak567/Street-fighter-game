@@ -1,29 +1,36 @@
 package com.mohak.gaming.canvas;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
-import com.mohak.gaming.utils.GameConstant;
+import com.mohak.gaming.utils.GameConstants;
 
-public class GameFrame extends JFrame implements GameConstant{
-	public GameFrame() throws Exception {
+
+
+public class GameFrame extends JFrame implements GameConstants  {
+	
+	public GameFrame() throws IOException  {
 		setResizable(false);
 		setTitle(TITLE);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(GWIDTH,GHEIGHT);
+		setSize(GWIDTH, GHEIGHT);
 		setLocationRelativeTo(null);
-		Board board = new Board();//board is called
-		add(board);//Board is now added in frame
+		Board board = new Board();
+		add(board); // Board added in Frame.
 		setVisible(true);
 		
 	}
 
 	public static void main(String[] args) {
-		try {
-			GameFrame obj =new GameFrame();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+			try {
+				GameFrame obj = new GameFrame();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 
 	}
 
