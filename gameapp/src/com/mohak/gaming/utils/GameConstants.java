@@ -2,10 +2,10 @@ package com.mohak.gaming.utils;
 
 public interface GameConstants {
 	
-	int GHEIGHT = 900; // public static final int GHEIGHT = 900;
+	int GHEIGHT = 900; 
 	int GWIDTH = 1400;
-	String TITLE = "Street Fighter Game";
-	int FLOOR = GHEIGHT - 150;
+	String TITLE = "Street Fighter";
+	int FLOOR = GHEIGHT - 180;
 	int SPEED = 10;
 	String RYU_IMAGE = "player-sprite.gif";
 	String KEN_IMAGE = "kenimage.png";
@@ -13,7 +13,8 @@ public interface GameConstants {
 	int WALK = 1;
 	int KICK = 2;
 	int PUNCH = 3;
-	int GRAVITY = 1;
+	//int JUMP = 1;
+	int GRAVITY = 2;
 	int GAME_LOOP = 60;
 
 }

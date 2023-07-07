@@ -11,7 +11,8 @@ import com.mohak.gaming.utils.GameConstants;
 public class RyuPlayer extends Player  {
 	private BufferedImage walkImages [] = new BufferedImage[6];
 	private BufferedImage kickImages[] = new BufferedImage[6]; 
-	private BufferedImage punchImages[] = new BufferedImage[6]; 
+	private BufferedImage punchImages[] = new BufferedImage[6];
+	//private BufferedImage jumpImages[] = new BufferedImage[6];
 	public RyuPlayer() throws IOException {
 		x = 100;
 		h = 200;
@@ -22,6 +23,7 @@ public class RyuPlayer extends Player  {
 		loadWalkImages();
 		loadKickImages();
 		loadPunchImages();
+		//loadJumpImages();
 	}
 	
 	public void jump() {
@@ -42,21 +44,21 @@ public class RyuPlayer extends Player  {
 	}
 	
 	private void loadWalkImages() {
-		walkImages[0]  = image.getSubimage(60, 236,77,98);
-		walkImages[1]  = image.getSubimage(142, 235,77,98);
-		walkImages[2]  = image.getSubimage(225,236,60,98);
-		walkImages[3]  = image.getSubimage(304, 233,58,98);
-		walkImages[4]  = image.getSubimage(377, 234,59,99);
-		walkImages[5]  = image.getSubimage(453, 239,65,96);
+		walkImages[0]  = image.getSubimage(111, 127, 69, 95);
+		walkImages[1]  = image.getSubimage(187, 127, 69, 95);
+		walkImages[2]  = image.getSubimage(269, 127, 69, 95);
+		walkImages[3]  = image.getSubimage(350, 127, 66, 95);
+		walkImages[4]  = image.getSubimage(427, 124, 66, 98);
+		walkImages[5]  = image.getSubimage(505, 123, 66, 99);
 	}
 	
 	private void loadKickImages() {
-		kickImages[0] = image.getSubimage(38, 1040,73,105);
-		kickImages[1] = image.getSubimage(123, 1039,65,106);
-		kickImages[2] = image.getSubimage(199, 1037,118,110);
-		kickImages[3] = image.getSubimage(327, 1045,71,99);
-		kickImages[4] = image.getSubimage(405,1044,70,99);
-		kickImages[5] = image.getSubimage(480, 1047,97,103);
+		kickImages[0] = image.getSubimage(40, 1046, 69, 96);
+		kickImages[1] = image.getSubimage(120, 1045, 69, 96);
+		kickImages[2] = image.getSubimage(199, 1050, 121, 93);
+		kickImages[3] = image.getSubimage(327, 1045, 71, 99);
+		kickImages[4] = image.getSubimage(405, 1044, 70, 99);
+		kickImages[5] = image.getSubimage(480, 1047, 97, 103);
 	}
 	
 	private void loadPunchImages() {
@@ -67,6 +69,16 @@ public class RyuPlayer extends Player  {
 		punchImages[4] = image.getSubimage(401,817,108,105);
 		punchImages[5] = image.getSubimage(518,816,76,105);
 	}
+	
+	/*private void loadJumpImages() {
+		jumpImages[0] = image.getSubimage(114, 459, 65, 111);
+		jumpImages[1] = image.getSubimage(193, 459, 65, 92);
+		jumpImages[2] = image.getSubimage(273, 460, 60, 75);
+		jumpImages[3] = image.getSubimage(346, 467, 64, 69);
+		jumpImages[4] = image.getSubimage(426, 464, 64, 86);
+		jumpImages[5] = image.getSubimage(505, 452, 64, 118);
+		
+	}*/
 	
 	private BufferedImage printWalk() {
 		if(imageIndex>5) {
@@ -94,6 +106,15 @@ public class RyuPlayer extends Player  {
 		imageIndex++; // Change Image Frames
 		return img;
 	}
+	/*private BufferedImage printJump() {
+		if(imageIndex>5) {
+			imageIndex=0;
+			currentMove = WALK;
+		}
+		BufferedImage img = jumpImages[imageIndex];
+		imageIndex++; // Change Image Frames
+		return img;
+	}*/
 	
 	
 	@Override
@@ -104,6 +125,9 @@ public class RyuPlayer extends Player  {
 		 else if (currentMove == PUNCH) {
 			 return printPunch();
 		 }
+		 /*else if (currentMove == JUMP) {
+			 return printJump();
+		 }*/
 		 else {
 			 return printWalk();
 		 }

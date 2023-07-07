@@ -52,7 +52,7 @@ public class Board extends JPanel implements GameConstants {
 		
 	}
 	
-	private void bindEvents() {
+	private void bindEvents() {//listener is used to detect the keys during game
 		this.addKeyListener(new KeyAdapter() {
 			
 			
@@ -66,37 +66,42 @@ public class Board extends JPanel implements GameConstants {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+				if(e.getKeyCode() == KeyEvent.VK_A) {
 					ryuPlayer.setSpeed(-SPEED);
+					//System.out.println("X left "+player.getX());//for getting new x value
 					ryuPlayer.move();
-					//repaint();
+					//repaint();//for painting the new coordinates of image
 				}
-				else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					ryuPlayer.jump();
+				else if (e.getKeyCode() == KeyEvent.VK_W) {
+				ryuPlayer.jump();
 				}
-				else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				else if(e.getKeyCode() == KeyEvent.VK_D) {
 					ryuPlayer.setSpeed(SPEED);
 					ryuPlayer.move();
-					//repaint();
+					//repaint();//for painting the new coordinates of image
 				}
 				// Ryu Kick
-				else if (e.getKeyCode()== KeyEvent.VK_K) {
+				else if (e.getKeyCode()== KeyEvent.VK_Z) {
 					ryuPlayer.setCurrentMove(KICK);
 				}
 				// Ryu Punch
-				else if (e.getKeyCode()== KeyEvent.VK_P) {
+				else if (e.getKeyCode()== KeyEvent.VK_X) {
 					ryuPlayer.setCurrentMove(PUNCH);
 				}
+				/*//Ryu jump
+				else if (e.getKeyCode()== KeyEvent.VK_W) {
+					ryuPlayer.setCurrentMove(JUMP);
+				}*/
 				// Ken 
-				else if (e.getKeyCode() == KeyEvent.VK_J) {
+				else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					kenPlayer.setSpeed(-SPEED);
 					kenPlayer.move();
-					//repaint();
+					//repaint()//for painting the new coordinates of image
 				}
-				else if (e.getKeyCode() == KeyEvent.VK_L) {
+				else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					kenPlayer.setSpeed(SPEED);
 					kenPlayer.move();
-					//repaint();
+					//repaint();//for painting the new coordinates of image
 				}
 				
 				
@@ -107,8 +112,7 @@ public class Board extends JPanel implements GameConstants {
 	
 	
 	@Override
-	public void paintComponent(Graphics pen) {
-		// Rendering / Painting
+	public void paintComponent(Graphics pen) {//paintcomponent is used to paint/render anything on the image
 		super.paintComponent(pen);
 		printBackgroundImage(pen);
 		ryuPlayer.printPlayer(pen);
@@ -120,14 +124,14 @@ public class Board extends JPanel implements GameConstants {
 
 	
 	private void printBackgroundImage(Graphics pen) {
-		pen.drawImage(imageBg,0,0, 1400,900, null);
+		pen.drawImage(imageBg,0,0, 1400,900, null);//null is used for image observer because our image size is fixed
 	}
 	
 	
 	
 	private void loadBackgroundImage() {
 		try {
-			imageBg = ImageIO.read(Board.class.getResource(BG_IMG));
+			imageBg = ImageIO.read(Board.class.getResource(BG_IMG));//image source
 			}
 			catch(Exception ex) {
 				System.out.println("Background Image Loading Fail...");

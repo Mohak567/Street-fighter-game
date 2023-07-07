@@ -16,8 +16,8 @@ public class GameFrame extends JFrame implements GameConstants  {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(GWIDTH, GHEIGHT);
 		setLocationRelativeTo(null);
-		Board board = new Board();
-		add(board); // Board added in Frame.
+		Board board = new Board();//board is called
+		add(board); // Board is added in Frame.
 		setVisible(true);
 		
 	}
