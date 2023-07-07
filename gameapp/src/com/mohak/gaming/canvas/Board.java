@@ -32,7 +32,8 @@ public class Board extends JPanel implements GameConstants {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				repaint();
-				ryuPlayer.fall();
+				ryuPlayer.fall();//this function always run
+				kenPlayer.fall();//this function always run
 				
 			}
 		});
@@ -66,38 +67,55 @@ public class Board extends JPanel implements GameConstants {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
+				//ryu left
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					ryuPlayer.setSpeed(-SPEED);
 					//System.out.println("X left "+player.getX());//for getting new x value
 					ryuPlayer.move();
 					//repaint();//for painting the new coordinates of image
 				}
+				//ryu jump
 				else if (e.getKeyCode() == KeyEvent.VK_W) {
 				ryuPlayer.jump();
 				}
+				//ryu right
 				else if(e.getKeyCode() == KeyEvent.VK_D) {
 					ryuPlayer.setSpeed(SPEED);
 					ryuPlayer.move();
 					//repaint();//for painting the new coordinates of image
 				}
-				// Ryu Kick
+				//ryu Kick
 				else if (e.getKeyCode()== KeyEvent.VK_Z) {
 					ryuPlayer.setCurrentMove(KICK);
 				}
-				// Ryu Punch
+				//ryu Punch
 				else if (e.getKeyCode()== KeyEvent.VK_X) {
 					ryuPlayer.setCurrentMove(PUNCH);
 				}
-				/*//Ryu jump
+				/*//ryu jump
 				else if (e.getKeyCode()== KeyEvent.VK_W) {
 					ryuPlayer.setCurrentMove(JUMP);
 				}*/
 				// Ken 
+				//ken jump
+				else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					kenPlayer.jump();
+					}
+				//ken left move
 				else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					kenPlayer.setSpeed(-SPEED);
 					kenPlayer.move();
 					//repaint()//for painting the new coordinates of image
 				}
+				//ken kick
+				else if (e.getKeyCode()== KeyEvent.VK_NUMPAD8) {
+					kenPlayer.setCurrentMove(KICK);
+				}
+				//ken punch
+				else if (e.getKeyCode()== KeyEvent.VK_NUMPAD7) {
+					kenPlayer.setCurrentMove(PUNCH);
+				}
+				//ken right move
 				else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					kenPlayer.setSpeed(SPEED);
 					kenPlayer.move();

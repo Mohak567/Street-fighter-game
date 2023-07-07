@@ -15,6 +15,6 @@ public interface GameConstants {
 	int PUNCH = 3;
 	//int JUMP = 1;
 	int GRAVITY = 2;
-	int GAME_LOOP = 60;
+	int GAME_LOOP = 80;
 
 }

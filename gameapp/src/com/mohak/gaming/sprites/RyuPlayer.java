@@ -25,9 +25,10 @@ public class RyuPlayer extends Player  {
 		loadPunchImages();
 		//loadJumpImages();
 	}
+	//jump logic
 	
 	public void jump() {
-		if(!isJump) {
+		if(!isJump) {//this stops the jump to initiate multiple times
 		isJump = true;
 		force = -20;
 		y = y + force;

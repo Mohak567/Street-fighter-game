@@ -16,7 +16,7 @@ public abstract class Player implements GameConstants {
 	protected int imageIndex;
 	protected int currentMove;
 	protected int force;
-	protected boolean isJump ;
+	protected boolean isJump ;//used to check weather the jump is running or not
 	
 	
 	public int getCurrentMove() {
