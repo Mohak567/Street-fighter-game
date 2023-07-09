@@ -8,11 +8,12 @@ import javax.imageio.ImageIO;
 
 import com.mohak.gaming.utils.GameConstants;
 
-public class RyuPlayer extends Player  {
+public class RyuPlayer extends Sprite  {
 	private BufferedImage walkImages [] = new BufferedImage[6];
 	private BufferedImage kickImages[] = new BufferedImage[6]; 
 	private BufferedImage punchImages[] = new BufferedImage[6];
 	//private BufferedImage jumpImages[] = new BufferedImage[6];
+	BufferedImage damageEffectImages [] = new BufferedImage[2];
 	public RyuPlayer() throws IOException {
 		x = 100;
 		h = 200;
@@ -24,6 +25,7 @@ public class RyuPlayer extends Player  {
 		loadKickImages();
 		loadPunchImages();
 		//loadJumpImages();
+		loadDamageEffect();
 	}
 	//jump logic
 	
@@ -42,6 +44,10 @@ public class RyuPlayer extends Player  {
 		}
 		y = y + force;
 		force = force + GRAVITY;
+	}
+	public void loadDamageEffect() {
+		damageEffectImages[0]  = image.getSubimage(246, 2533, 76, 95);
+		damageEffectImages[1]  = image.getSubimage(334, 2532, 73, 94);
 	}
 	
 	private void loadWalkImages() {
@@ -80,8 +86,18 @@ public class RyuPlayer extends Player  {
 		jumpImages[5] = image.getSubimage(505, 452, 64, 118);
 		
 	}*/
+	public BufferedImage printDamageImages() {
+		if(imageIndex>=2) {
+			imageIndex = 0;
+			currentMove = WALK;
+		}
+		BufferedImage img =  damageEffectImages[imageIndex];
+		imageIndex++;
+		return img;
+			}
 	
 	private BufferedImage printWalk() {
+		isAttacking = false;//for stopping the damage effect images
 		if(imageIndex>5) {
 			imageIndex=0;
 		}
@@ -93,7 +109,9 @@ public class RyuPlayer extends Player  {
 		if(imageIndex>5) {
 			imageIndex=0;
 			currentMove = WALK;
+			isAttacking = false;
 		}
+		isAttacking = true;
 		BufferedImage img = kickImages[imageIndex];
 		imageIndex++; // Change Image Frames
 		return img;
@@ -102,7 +120,9 @@ public class RyuPlayer extends Player  {
 		if(imageIndex>5) {
 			imageIndex=0;
 			currentMove = WALK;
+			isAttacking = false;
 		}
+		isAttacking = true;
 		BufferedImage img = punchImages[imageIndex];
 		imageIndex++; // Change Image Frames
 		return img;
@@ -120,7 +140,10 @@ public class RyuPlayer extends Player  {
 	
 	@Override
 	public BufferedImage defaultImage() {
-		 if(currentMove == KICK) {
+		if(currentMove == DAMAGE) {
+			return printDamageImages();
+		}
+	else if(currentMove == KICK) {
 			return printKick();
 		}
 		 else if (currentMove == PUNCH) {

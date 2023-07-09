@@ -5,20 +5,25 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class KenPlayer extends Player {
+public class KenPlayer extends Sprite {
 	private BufferedImage walkImages [] = new BufferedImage[6];
 	private BufferedImage kickImages [] = new BufferedImage[8];
 	private BufferedImage punchImages [] = new BufferedImage[7];
+	BufferedImage damageEffectImages [] = new BufferedImage[5];
+	
 	public KenPlayer() throws IOException {
 		x = GWIDTH - 400;//because it is on right side
 		h = 200;
 		w = 200;
 		y = FLOOR - h;
 		speed = 0;
+		imageIndex = 0;
+		currentMove = WALK;
 		image = ImageIO.read(RyuPlayer.class.getResource(KEN_IMAGE));
 		loadWalkImages();
 		loadKickImages();
 		loadPunchImages();
+		loadDamageEffect();
 	}
 	//jump logic
 	public void jump() {
@@ -36,6 +41,13 @@ public class KenPlayer extends Player {
 		}
 		y = y + force;
 		force = force + GRAVITY;
+	}
+	public void loadDamageEffect() {
+		damageEffectImages[0]  = image.getSubimage(1362, 3274, 68, 93);
+		damageEffectImages[1]  = image.getSubimage(1439, 3273, 82, 94);
+		damageEffectImages[2]  = image.getSubimage(1540, 3278, 74, 89);
+		damageEffectImages[3]  = image.getSubimage(1629, 3278, 70, 89);
+		damageEffectImages[4]  = image.getSubimage(1710, 3277, 63, 89);
 	}
 	
 	private void loadWalkImages() {
@@ -68,18 +80,21 @@ public class KenPlayer extends Player {
 		punchImages[6] = image.getSubimage(2030, 1147, 67, 96);
 	}
 	private BufferedImage printWalk() {
+		isAttacking = false;//for stopping the damage effect images
 		if(imageIndex>5) {
 			imageIndex=0;
 		}
 		BufferedImage img = walkImages[imageIndex];
 		imageIndex++; // Change Image Frames
 		return img;
-	}
+	} 
 	private BufferedImage printKick() {
 		if(imageIndex>7) {
 			imageIndex=0;
 			currentMove = WALK;
+			isAttacking = false;
 		}
+		isAttacking = true;
 		BufferedImage img = kickImages[imageIndex];
 		imageIndex++; // Change Image Frames
 		return img;
@@ -88,17 +103,31 @@ public class KenPlayer extends Player {
 		if(imageIndex>6) {
 			imageIndex=0;
 			currentMove = WALK;
+			isAttacking = false;
 		}
+		isAttacking = true;
 		BufferedImage img = punchImages[imageIndex];
 		imageIndex++; // Change Image Frames
 		return img;
 	}
 	
+	public BufferedImage printDamageImages() {
+		if(imageIndex>=4) {
+			imageIndex = 0;
+			currentMove = WALK;
+		}
+		BufferedImage img =  damageEffectImages[imageIndex];
+		imageIndex++;
+		return img;
+			}
 	
 	@Override
 	public BufferedImage defaultImage() {
 		//BufferedImage subImage = image.getSubimage(1756,685,62,94);//single image
-		 if(currentMove == KICK) {
+		if(currentMove == DAMAGE) {
+			return printDamageImages();//check
+		}
+		else if(currentMove == KICK) {
 				return printKick();
 			}
 		 else if (currentMove == PUNCH) {

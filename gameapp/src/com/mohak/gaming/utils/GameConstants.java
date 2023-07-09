@@ -16,5 +16,7 @@ public interface GameConstants {
 	//int JUMP = 1;
 	int GRAVITY = 2;
 	int GAME_LOOP = 80;
+	int DAMAGE = 5;
+	int MAX_HEALTH = 500;
 
 }

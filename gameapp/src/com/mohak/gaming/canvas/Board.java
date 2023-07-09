@@ -1,5 +1,7 @@
 package com.mohak.gaming.canvas;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import com.mohak.gaming.sprites.KenPlayer;
+import com.mohak.gaming.sprites.Power;
 import com.mohak.gaming.sprites.RyuPlayer;
 import com.mohak.gaming.utils.GameConstants;
 
@@ -22,8 +25,10 @@ public class Board extends JPanel implements GameConstants {
 	BufferedImage imageBg;
 	private RyuPlayer ryuPlayer;
 	private KenPlayer kenPlayer;
-	
+	private Power ryuFullPower;
+	private Power kenFullPower;
 	private Timer timer;
+	private boolean gameOver;
 	
 	private void gameLoop() {
 		timer = new Timer(GAME_LOOP,new ActionListener() {
@@ -32,14 +37,74 @@ public class Board extends JPanel implements GameConstants {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				repaint();
+				if(gameOver) {
+					timer.stop();//when game is over
+				}
 				ryuPlayer.fall();//this function always run
 				kenPlayer.fall();//this function always run
+				collision();
+				isGameOver();
 				
 			}
 		});
 		timer.start();
 	}
+	private void loadPower() {
+		ryuFullPower = new Power(30,"RYU");
+		kenFullPower = new Power(GWIDTH - 550,"KEN");
+	}
 	
+	private void printFullPower(Graphics g) {
+		ryuFullPower.printRectangle(g);
+		kenFullPower.printRectangle(g);
+	}
+	
+	private boolean isCollide() {//for checking weather the players collide or not
+		int xDistance = Math.abs(ryuPlayer.getX() - kenPlayer.getX());
+		int yDistance = Math.abs(ryuPlayer.getY() - kenPlayer.getY());
+		int maxH = Math.max(ryuPlayer.getH(), kenPlayer.getH());
+		int maxW = Math.max(ryuPlayer.getW(), kenPlayer.getW());
+		return xDistance <=maxW-25 && yDistance <= maxH-25;//-25 so that blank spaces are removed in game
+	}
+	
+	private void collision() {
+		if(isCollide()) {
+			if(ryuPlayer.isAttacking()) {
+				kenPlayer.setCurrentMove(DAMAGE);
+				kenFullPower.setHealth();
+			}
+			else if (kenPlayer.isAttacking()) {
+				ryuPlayer.setCurrentMove(DAMAGE);
+				ryuFullPower.setHealth();
+			}
+			else if(ryuPlayer.isAttacking() && kenPlayer.isAttacking()) {
+				ryuPlayer.setCurrentMove(DAMAGE);
+				kenPlayer.setCurrentMove(DAMAGE);
+			}
+			kenPlayer.setCollide(true);
+			ryuPlayer.setCollide(true);
+			//System.out.println("horaha");//for checking collision 
+			ryuPlayer.setSpeed(0);
+		}
+		else {
+			ryuPlayer.setCollide(false);
+			ryuPlayer.setSpeed(SPEED);
+		}
+	}
+	
+	private void isGameOver() {
+		if(ryuFullPower.getHealth()<=0 || kenFullPower.getHealth()<=0) {
+			gameOver = true;
+		}
+	}
+	
+	private void printGameOver(Graphics pen) {
+		if(gameOver) {
+			pen.setColor(Color.RED);
+		pen.setFont(new Font ("times", Font.BOLD, 40));
+		pen.drawString("GAME OVER", GWIDTH/2-100, GHEIGHT/2-100);
+		}
+	}
 	
 	public Board() throws IOException  {
 		
@@ -49,6 +114,7 @@ public class Board extends JPanel implements GameConstants {
 		setFocusable(true);
 		bindEvents();
 		gameLoop();
+		loadPower();
 		
 		
 	}
@@ -71,6 +137,7 @@ public class Board extends JPanel implements GameConstants {
 				if(e.getKeyCode() == KeyEvent.VK_A) {
 					ryuPlayer.setSpeed(-SPEED);
 					//System.out.println("X left "+player.getX());//for getting new x value
+					ryuPlayer.setCollide(false);//so that player can move backward also
 					ryuPlayer.move();
 					//repaint();//for painting the new coordinates of image
 				}
@@ -118,6 +185,7 @@ public class Board extends JPanel implements GameConstants {
 				//ken right move
 				else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					kenPlayer.setSpeed(SPEED);
+					kenPlayer.setCollide(false);//so that player can move backward also
 					kenPlayer.move();
 					//repaint();//for painting the new coordinates of image
 				}
@@ -135,8 +203,8 @@ public class Board extends JPanel implements GameConstants {
 		printBackgroundImage(pen);
 		ryuPlayer.printPlayer(pen);
 		kenPlayer.printPlayer(pen);
-		
-		
+		printFullPower(pen);
+		printGameOver(pen);
 		
 	}
 
